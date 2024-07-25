@@ -1,35 +1,37 @@
 package ar.com.scacchipa.eldarwallet
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import ar.com.scacchipa.eldarwallet.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import ar.com.scacchipa.eldarwallet.ui.BottomNavigationBar
+import ar.com.scacchipa.eldarwallet.ui.NavigationGraph
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+@AndroidEntryPoint
+class MainActivity @Inject constructor() : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        setContent {
+            MaterialTheme {
+                val navController = rememberNavController()
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(navController = navController)
+                    }) { innerPadding ->
+                    NavigationGraph(
+                        navController = navController,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
+        }
     }
 }

@@ -70,6 +70,9 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+//    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+//    implementation("org.asynchttpclient:async-http-client:2.2.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

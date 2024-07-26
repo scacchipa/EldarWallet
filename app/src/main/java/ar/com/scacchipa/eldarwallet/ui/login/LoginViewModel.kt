@@ -98,7 +98,11 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun onSwichTapped() {
-
+    fun onSwitchTapped(isEnabled: Boolean) {
+        if (isEnabled) {
+            onLogInButtonPushed()
+        } else {
+            onLogOutButtonPushed()
+        }
     }
 }

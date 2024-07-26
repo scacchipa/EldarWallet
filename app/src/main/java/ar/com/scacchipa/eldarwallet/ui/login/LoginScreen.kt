@@ -64,7 +64,7 @@ fun LoginScreen(
         Switch(
             checked = data.isLogged,
             onCheckedChange = {
-                viewModel.onSwichTapped()
+                viewModel.onSwitchTapped(it)
             }
         )
     }

@@ -1,6 +1,8 @@
 package ar.com.scacchipa.eldarwallet.data.repository
 
 import ar.com.scacchipa.eldarwallet.data.sourcedata.SharedPrefManager
+import ar.com.scacchipa.eldarwallet.util.Constants.Companion.FAMILY_NAME_IDENTIFIER
+import ar.com.scacchipa.eldarwallet.util.Constants.Companion.FIRST_NAME_IDENTIFIER
 import ar.com.scacchipa.eldarwallet.util.Constants.Companion.PASSWORD_IDENTIFIER
 import ar.com.scacchipa.eldarwallet.util.Constants.Companion.USER_NAME_IDENTIFIER
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +25,24 @@ class CredentialRepository @Inject constructor(
     )
 
     val credentialStatusStateFlow: StateFlow<CredentialStatus> = _mutableCredentialStatusStateFlow
+
+    fun storeFistName(firstName: String) {
+        sharedPrefManager.put(FIRST_NAME_IDENTIFIER, firstName)
+        emitCredentialStatus()
+    }
+
+    fun getFirstName(): String {
+        return sharedPrefManager.getString(FIRST_NAME_IDENTIFIER)
+    }
+
+    fun storeFamilyName(familyName: String) {
+        sharedPrefManager.put(FAMILY_NAME_IDENTIFIER, familyName)
+        emitCredentialStatus()
+    }
+
+    fun getFamilyName(): String {
+        return sharedPrefManager.getString(FAMILY_NAME_IDENTIFIER)
+    }
 
     fun storeUserName(userName: String) {
         sharedPrefManager.put(USER_NAME_IDENTIFIER, userName)

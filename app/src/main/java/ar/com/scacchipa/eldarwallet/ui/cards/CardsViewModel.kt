@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import ar.com.scacchipa.eldarwallet.data.sourcedata.carddatabase.CardEntity
 import ar.com.scacchipa.eldarwallet.usecase.GetAllCard
 import ar.com.scacchipa.eldarwallet.usecase.GetCredentialStatusFlow
+import ar.com.scacchipa.eldarwallet.usecase.GetFamilyName
+import ar.com.scacchipa.eldarwallet.usecase.GetFirstName
 import ar.com.scacchipa.eldarwallet.usecase.GetUserName
 import ar.com.scacchipa.eldarwallet.usecase.InsertCard
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,10 +23,12 @@ class CardsViewModel @Inject constructor(
     private val getCredentialStatusFlow: GetCredentialStatusFlow,
     private val getUserName: GetUserName,
     private val insertCard: InsertCard,
-    private val getAllCard: GetAllCard
+    private val getAllCard: GetAllCard,
+    private val getFirstName: GetFirstName,
+    private val getFamilyName: GetFamilyName,
 ) : ViewModel() {
 
-    val onlyNumberRegex = Regex("^\\d+\$")
+    private val onlyNumberRegex = Regex("^\\d+\$")
 
     private val _cardsScreenStateFlow = MutableStateFlow(CardsScreenState())
     val cardsScreenState: StateFlow<CardsScreenState> = _cardsScreenStateFlow
@@ -119,11 +123,10 @@ class CardsViewModel @Inject constructor(
         viewModelScope.launch {
             _cardsScreenStateFlow.update {
                 it.copy(
-                    owner = getUserName() ?: "",
+                    owner = "${getFirstName()} ${getFamilyName()}",
                     list = getAllCard()
                 )
             }
         }
     }
 }
-

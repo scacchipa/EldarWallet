@@ -12,10 +12,16 @@ class RegisterNewCredential @Inject constructor(
     private val credentialRepository: CredentialRepository,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) {
-     suspend operator fun invoke(userName: String, password: String) {
+     suspend operator fun invoke(
+         firstName: String,
+         familyName: String,
+         userName: String,
+         password: String) {
         withContext(defaultDispatcher) {
             if (credentialRepository.isUserRegistered().not()) {
                 credentialRepository.apply {
+                    storeFistName(firstName)
+                    storeFamilyName(familyName)
                     storeUserName(userName)
                     storePassword(password)
                 }

@@ -1,19 +1,15 @@
 package ar.com.scacchipa.eldarwallet.ui.login
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.com.scacchipa.eldarwallet.R
+import ar.com.scacchipa.eldarwallet.ui.StandardTextField
 
 @Composable
 fun LoginScreen(
@@ -21,25 +17,28 @@ fun LoginScreen(
 ) {
     val data by viewModel.loginStateFlow.collectAsState()
     Column {
-        OutlinedTextField(
-            value = data.userName,
-            onValueChange = { userName -> viewModel.onUserNameChanged(userName) },
-            label = { Text(text = "User name") },
-            leadingIcon = {
-                Icon(painter = painterResource(id = R.drawable.person_fill_svgrepo_com),
-                    contentDescription = "User name")
-            },
-            modifier = Modifier.fillMaxWidth()
+        StandardTextField(
+            value = data.firstName,
+            onValueChange = viewModel::onFirstNameChanged,
+            labelText = "First Name",
+            drawableIconId = R.drawable.person_fill_svgrepo_com
         )
-        OutlinedTextField(
+        StandardTextField(
+            value = data.familyName,
+            onValueChange = viewModel::onFamilyNameChanged,
+            labelText = "Family Name",
+            drawableIconId = R.drawable.person_fill_svgrepo_com)
+        StandardTextField(
+            value = data.userName,
+            onValueChange = viewModel::onUserNameChanged,
+            labelText = "User name",
+            drawableIconId = R.drawable.person_fill_svgrepo_com,
+        )
+        StandardTextField(
             value = data.password,
-            onValueChange = { password -> viewModel.onPasswordChanged(password) },
-            label = { Text(text = "User name") },
-            leadingIcon = {
-                Icon(painter = painterResource(id = R.drawable.password_svgrepo_com),
-                    contentDescription = "User name")
-            },
-            modifier = Modifier.fillMaxWidth()
+            onValueChange = viewModel::onPasswordChanged,
+            labelText = "User name",
+            drawableIconId = R.drawable.password_svgrepo_com
         )
         Button(
             enabled = data.isRegisterButtonEnabled,

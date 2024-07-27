@@ -1,6 +1,8 @@
 package ar.com.scacchipa.eldarwallet.ui.login
 
 data class LoginScreenState(
+    val firstName: String = "",
+    val familyName: String = "",
     val userName:String = "",
     val password:String = "",
 

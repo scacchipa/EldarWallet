@@ -21,28 +21,38 @@ class CardRepository @Inject constructor(
 
     private var cardDatabase: CardDataBase? = null
     private var userName: String? = null
+    private var firstName: String? = null
+    private var familyName: String? = null
 
-    fun changeDatabase(userName:  String, password: String) {
+    fun changeDatabase(
+        firstName: String,
+        familyName: String,
+        userName: String,
+        password: String
+    ) {
         val passphrase: ByteArray =
             SQLiteDatabase.getBytes(password.toCharArray())
-        cardDatabase =  CardDataBase.getDatabase(context, userName, passphrase)
+        cardDatabase = CardDataBase.getDatabase(context, userName, passphrase)
         this.userName = userName
+        this.firstName = firstName
+        this.familyName = familyName
     }
 
     suspend fun insert(cardEntity: CardEntity): Boolean {
         return withContext(ioDispatcher) {
-            userName?.let {
-                if (cardValidatorService.validateCardEntity(cardEntity, it)) {
-                    cardDatabase?.cardDao()?.insert(cardEntity)
-                    return@let true
-                } else {
-                    return@let false
-                }
-            }?: return@withContext false
+            val firstName = this@CardRepository.firstName ?: return@withContext false
+            val familyName = this@CardRepository.familyName ?: return@withContext false
+
+            if (cardValidatorService.validateCardEntity(cardEntity, firstName, familyName)) {
+                cardDatabase?.cardDao()?.insert(cardEntity)
+                return@withContext true
+            } else {
+                return@withContext false
+            }
         }
     }
 
-    suspend fun getAll() : List<CardEntity> {
+    suspend fun getAll(): List<CardEntity> {
         return withContext(ioDispatcher) {
             return@withContext cardDatabase?.cardDao()?.getAll() ?: listOf()
         }

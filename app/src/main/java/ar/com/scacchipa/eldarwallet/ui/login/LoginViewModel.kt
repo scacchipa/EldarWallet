@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,22 +46,28 @@ class LoginViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun onFirstNameChanged(newFirstName: String) {
+        _loginStateFlow.update {
+            it.copy(firstName = newFirstName)
+        }
+    }
+
+    fun onFamilyNameChanged(newFamilyName: String) {
+        _loginStateFlow.update {
+            it.copy(familyName = newFamilyName)
+        }
+    }
+
     fun onUserNameChanged(newUserName: String) {
-        viewModelScope.launch {
-            _loginStateFlow.emit(
-                loginStateFlow.value.copy(
-                    userName = newUserName
-                )
-            )
+        _loginStateFlow.update {
+            it.copy(userName = newUserName)
         }
     }
 
     fun onPasswordChanged(newPassword: String) {
-        viewModelScope.launch {
-            _loginStateFlow.emit(
-                loginStateFlow.value.copy(
-                    password = newPassword
-                )
+        _loginStateFlow.update {
+            it.copy(
+                password = newPassword
             )
         }
     }
@@ -69,8 +76,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             with(_loginStateFlow.value) {
                 registerNewCredential(
-                    userName = userName,
-                    password = password
+                    firstName, familyName, userName, password
                 )
             }
         }
@@ -87,7 +93,7 @@ class LoginViewModel @Inject constructor(
     fun onLogInButtonPushed() {
         viewModelScope.launch {
             with(_loginStateFlow.value) {
-                logInUser(userName, password)
+                logInUser(firstName, familyName, userName, password)
             }
         }
     }

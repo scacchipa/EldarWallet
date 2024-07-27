@@ -29,6 +29,9 @@ class CardsViewModel @Inject constructor(
     private val _cardsScreenStateFlow = MutableStateFlow(CardsScreenState())
     val cardsScreenState: StateFlow<CardsScreenState> = _cardsScreenStateFlow
 
+    private val _showToastStateFlow = MutableStateFlow<String?>(null)
+    val showToastMessage: StateFlow<String?> = _showToastStateFlow
+
     init {
         viewModelScope.launch {
             getCredentialStatusFlow()
@@ -96,9 +99,19 @@ class CardsViewModel @Inject constructor(
                 cvv = _cardsScreenStateFlow.value.cvv,
                 dueDate = _cardsScreenStateFlow.value.dueDate
             )
-            insertCard(cardEntity)
+            val wasInserted = insertCard(cardEntity)
+
+            if (!wasInserted) {
+                _showToastStateFlow.emit("INVALID CARD INFO")
+            }
 
             refreshAllEntities()
+        }
+    }
+
+    fun onToastShown() {
+        viewModelScope.launch {
+            _showToastStateFlow.emit(null)
         }
     }
 

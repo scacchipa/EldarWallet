@@ -11,9 +11,9 @@ class InsertCard @Inject constructor(
     private val cardRepository: CardRepository,
     @DefaultDispatcher val defaultDispatcher: CoroutineDispatcher
 ) {
-    suspend operator fun invoke(cardEntity: CardEntity) {
-        withContext(defaultDispatcher) {
-            cardRepository.insert(cardEntity = cardEntity)
+    suspend operator fun invoke(cardEntity: CardEntity): Boolean {
+        return withContext(defaultDispatcher) {
+            return@withContext cardRepository.insert(cardEntity = cardEntity)
         }
     }
 }

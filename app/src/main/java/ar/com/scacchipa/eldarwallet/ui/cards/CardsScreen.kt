@@ -1,5 +1,6 @@
 package ar.com.scacchipa.eldarwallet.ui.cards
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +12,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +27,16 @@ fun CardScreen(
     viewModel: CardsViewModel = hiltViewModel()
 ) {
     val data by viewModel.cardsScreenState.collectAsState()
+    val context = LocalContext.current
+
+    val showToastEvent by viewModel.showToastMessage.collectAsState()
+
+    LaunchedEffect(showToastEvent) {
+        showToastEvent?.let { text ->
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+            viewModel.onToastShown()
+        }
+    }
 
     if (data.isUserLogged) {
         Column {

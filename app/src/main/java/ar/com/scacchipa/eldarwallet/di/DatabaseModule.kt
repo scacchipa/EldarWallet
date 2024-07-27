@@ -15,16 +15,16 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-    @Provides
-    @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): CardDataBase {
-        SQLiteDatabase.loadLibs(context)
-        val passphrase: ByteArray = SQLiteDatabase.getBytes("your_secure_passphrase".toCharArray())
-        return CardDataBase.getDatabase(context, username, passphrase)
-    }
-
-    @Provides
-    fun provideCardDao(database: CardDataBase): CardDao {
-        return database.cardDao()
-    }
+//    @Provides
+//    @Singleton
+//    fun provideDatabase(@ApplicationContext context: Context): CardDataBase {
+//        SQLiteDatabase.loadLibs(context)
+//        val passphrase: ByteArray = SQLiteDatabase.getBytes("your_secure_passphrase".toCharArray())
+//        return CardDataBase.getDatabase(context, username, passphrase)
+//    }
+//
+//    @Provides
+//    fun provideCardDao(database: CardDataBase): CardDao {
+//        return database.cardDao()
+//    }
 }

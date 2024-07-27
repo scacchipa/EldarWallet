@@ -30,7 +30,7 @@ fun CardScreen(
             OutlinedTextField(
                 enabled = false,
                 value = data.owner,
-                onValueChange = { owner -> viewModel.onCodeChanged(owner) },
+                onValueChange = { owner -> viewModel.onOwnerCodeChanged(owner) },
                 label = { Text(text = "Owner") },
                 leadingIcon = {
                     Icon(

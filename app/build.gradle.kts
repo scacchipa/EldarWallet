@@ -70,9 +70,18 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-//    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-//    implementation("org.asynchttpclient:async-http-client:2.2.0")
+    implementation(libs.okhttp)
+    implementation(libs.accompanist.pager) // Pager
+    implementation(libs.accompanist.pager.indicators) // Pager Indicators
+
+    // SQLCipher
+    implementation("net.zetetic:android-database-sqlcipher:4.5.0@aar") // Replace with the latest version
+    // Room components
+    implementation("androidx.room:room-runtime:2.6.1")// Replace with the latest version
+    kapt("androidx.room:room-compiler:2.6.1") // Replace with the latest version
+    // Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.6.1") // Replace with the latest version
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

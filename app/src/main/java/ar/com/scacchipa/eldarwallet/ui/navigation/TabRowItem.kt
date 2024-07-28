@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import ar.com.scacchipa.eldarwallet.R
 import ar.com.scacchipa.eldarwallet.ui.cards.CardScreen
 import ar.com.scacchipa.eldarwallet.ui.main.MainScreen
-import ar.com.scacchipa.eldarwallet.ui.PayScreen
+import ar.com.scacchipa.eldarwallet.ui.pay.PayScreen
 import ar.com.scacchipa.eldarwallet.ui.login.LoginScreen
 import ar.com.scacchipa.eldarwallet.ui.qrcode.QrCodeScreen
 

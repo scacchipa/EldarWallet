@@ -1,4 +1,4 @@
-package ar.com.scacchipa.eldarwallet.ui
+package ar.com.scacchipa.eldarwallet.ui.widgets
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -17,7 +17,7 @@ fun StandardTextField(
     value: String,
     onValueChange: (String) -> Unit,
     labelText: String,
-    @DrawableRes drawableIconId: Int,
+    @DrawableRes drawableIconId: Int? = null,
     modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     OutlinedTextField(
@@ -25,12 +25,13 @@ fun StandardTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(text = labelText) },
-        leadingIcon = {
-            Image(
-                modifier = Modifier.size(width = 32.dp, height = 32.dp),
-                painter = painterResource(id = drawableIconId),
-                contentDescription = "Password"
-            )
+        leadingIcon = { drawableIconId?.let {
+                Image(
+                    modifier = Modifier.size(width = 32.dp, height = 32.dp),
+                    painter = painterResource(id = it),
+                    contentDescription = "Password"
+                )
+            }
         },
         modifier = modifier
     )

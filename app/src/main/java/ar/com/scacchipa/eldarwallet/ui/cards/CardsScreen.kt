@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.com.scacchipa.eldarwallet.R
 import ar.com.scacchipa.eldarwallet.ext.cardValidator
-import ar.com.scacchipa.eldarwallet.ui.StandardTextField
+import ar.com.scacchipa.eldarwallet.ui.widgets.StandardTextField
 
 @Composable
 fun CardScreen(

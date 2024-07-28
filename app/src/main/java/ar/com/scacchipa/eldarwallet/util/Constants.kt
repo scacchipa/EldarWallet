@@ -6,5 +6,7 @@ class Constants {
         const val FAMILY_NAME_IDENTIFIER = "FamilyName"
         const val USER_NAME_IDENTIFIER = "UserName"
         const val PASSWORD_IDENTIFIER = "Password"
+
+        val ONLY_NUMBER_REGEX = Regex("^\\d+\$")
     }
 }

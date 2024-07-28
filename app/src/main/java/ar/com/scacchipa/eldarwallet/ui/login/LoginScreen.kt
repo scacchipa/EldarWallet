@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.com.scacchipa.eldarwallet.R
-import ar.com.scacchipa.eldarwallet.ui.StandardTextField
+import ar.com.scacchipa.eldarwallet.ui.widgets.StandardTextField
 
 @Composable
 fun LoginScreen(
@@ -81,4 +81,3 @@ fun LoginScreen(
         )
     }
 }
-

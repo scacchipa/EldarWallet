@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.com.scacchipa.eldarwallet.data.sourcedata.carddatabase.CardEntity
 import ar.com.scacchipa.eldarwallet.usecase.GetAllCard
+import ar.com.scacchipa.eldarwallet.usecase.GetCardListFlow
 import ar.com.scacchipa.eldarwallet.usecase.GetCredentialStatusFlow
 import ar.com.scacchipa.eldarwallet.usecase.GetFamilyName
 import ar.com.scacchipa.eldarwallet.usecase.GetFirstName
 import ar.com.scacchipa.eldarwallet.usecase.GetUserName
 import ar.com.scacchipa.eldarwallet.usecase.InsertCard
+import ar.com.scacchipa.eldarwallet.util.Constants.Companion.ONLY_NUMBER_REGEX
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,9 +28,8 @@ class CardsViewModel @Inject constructor(
     private val getAllCard: GetAllCard,
     private val getFirstName: GetFirstName,
     private val getFamilyName: GetFamilyName,
+    private val getCardListFlow: GetCardListFlow
 ) : ViewModel() {
-
-    private val onlyNumberRegex = Regex("^\\d+\$")
 
     private val _cardsScreenStateFlow = MutableStateFlow(CardsScreenState())
     val cardsScreenState: StateFlow<CardsScreenState> = _cardsScreenStateFlow
@@ -43,6 +44,15 @@ class CardsViewModel @Inject constructor(
                     _cardsScreenStateFlow.update {
                         it.copy(
                             isUserLogged = credentialStatus.isUserLogged
+                        )
+                    }
+                }
+                .launchIn(viewModelScope)
+            getCardListFlow()
+                .onEach { cardList ->
+                    _cardsScreenStateFlow.update {
+                        it.copy(
+                            list = cardList
                         )
                     }
                 }
@@ -63,7 +73,7 @@ class CardsViewModel @Inject constructor(
 
     fun onCardNumberChanged(cardNumber: String) {
         viewModelScope.launch {
-            if (cardNumber.isEmpty() || cardNumber.matches(onlyNumberRegex)) {
+            if (cardNumber.isEmpty() || cardNumber.matches(ONLY_NUMBER_REGEX)) {
                 _cardsScreenStateFlow.update {
                     it.copy(
                         cardNumber = cardNumber
@@ -75,7 +85,7 @@ class CardsViewModel @Inject constructor(
 
     fun onCvvChanged(cvv: String) {
         viewModelScope.launch {
-            if (cvv.isEmpty() || cvv.matches(onlyNumberRegex)) {
+            if (cvv.isEmpty() || cvv.matches(ONLY_NUMBER_REGEX)) {
                 _cardsScreenStateFlow.update {
                     it.copy(
                         cvv = cvv
@@ -109,8 +119,6 @@ class CardsViewModel @Inject constructor(
             if (!wasInserted) {
                 _showToastStateFlow.emit("INVALID CARD INFO")
             }
-
-            refreshAllEntities()
         }
     }
 

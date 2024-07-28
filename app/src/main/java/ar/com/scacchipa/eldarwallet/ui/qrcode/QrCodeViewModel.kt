@@ -42,7 +42,7 @@ class QrCodeViewModel @Inject constructor(
                 getUserName()?.let { userName ->
                     _qrCodeImageStateFlow.emit(
                         _qrCodeImageStateFlow.value.copy(
-                            qrCodeBitmap = createQrImage(txt = userName)
+                            qrCodeBitmap = createQrImage()
                         )
                     )
                 }

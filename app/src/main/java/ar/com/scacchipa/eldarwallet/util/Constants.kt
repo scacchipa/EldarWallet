@@ -8,5 +8,7 @@ class Constants {
         const val PASSWORD_IDENTIFIER = "Password"
 
         val ONLY_NUMBER_REGEX = Regex("^\\d+\$")
+
+        const val API_KEY = "36b5c5984cmsh7c94594b43155d7p131092jsnb9e394b85062"
     }
 }

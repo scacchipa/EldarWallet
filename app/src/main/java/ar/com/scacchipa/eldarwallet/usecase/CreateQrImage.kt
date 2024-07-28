@@ -11,13 +11,16 @@ import javax.inject.Singleton
 
 @Singleton
 class CreateQrImage @Inject constructor(
-    private val repository: QrCodeRepository,
+    private val qrCodeRepository: QrCodeRepository,
+    private val getFirstName: GetFirstName,
+    private val getFamilyName: GetFamilyName,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) {
-    suspend operator fun invoke(txt: String): Bitmap? {
+    suspend operator fun invoke(): Bitmap? {
         return withContext(defaultDispatcher) {
 
-            val bytes = repository.createQrCodeBytes(text = txt)
+            val bytes = qrCodeRepository.createQrCodeBytes(
+                text = "${getFirstName()} ${getFamilyName()}")
                 ?: return@withContext null
 
             return@withContext BitmapFactory.decodeByteArray(bytes, 0, bytes.size)

@@ -1,5 +1,6 @@
 package ar.com.scacchipa.eldarwallet.data.sourcedata
 
+import ar.com.scacchipa.eldarwallet.util.Constants.Companion.API_KEY
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -24,10 +25,7 @@ class QrCodeService @Inject constructor() {
         val request: Request = Request.Builder()
             .url("https://qrcode68.p.rapidapi.com/classic")
             .post(body)
-            .addHeader(
-                "x-rapidapi-key",
-                "36b5c5984cmsh7c94594b43155d7p131092jsnb9e394b85062"
-            )
+            .addHeader("x-rapidapi-key", API_KEY)
             .addHeader("x-rapidapi-host", "qrcode68.p.rapidapi.com")
             .addHeader(
                 "Content-Type",

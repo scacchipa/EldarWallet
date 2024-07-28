@@ -76,7 +76,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             with(_loginStateFlow.value) {
                 registerNewCredential(
-                    firstName, familyName, userName, password
+                    firstName.trim(), familyName.trim(), userName.trim(), password.trim()
                 )
             }
         }
@@ -85,7 +85,7 @@ class LoginViewModel @Inject constructor(
     fun onUnregisterButtonPushed() {
         viewModelScope.launch {
             with(_loginStateFlow.value) {
-                removeCredentials(userName, password)
+                removeCredentials(userName.trim(), password.trim())
             }
         }
     }
@@ -93,7 +93,7 @@ class LoginViewModel @Inject constructor(
     fun onLogInButtonPushed() {
         viewModelScope.launch {
             with(_loginStateFlow.value) {
-                logInUser(userName, password)
+                logInUser(userName.trim(), password.trim())
             }
         }
     }

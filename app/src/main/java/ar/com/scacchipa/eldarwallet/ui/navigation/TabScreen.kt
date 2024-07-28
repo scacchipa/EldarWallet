@@ -10,11 +10,14 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -24,6 +27,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabScreen(
+    viewModel: NavigationViewModel = hiltViewModel(),
     modifier: Modifier,
 ) {
     Column(
@@ -33,6 +37,7 @@ fun TabScreen(
 
         val pagerState = rememberPagerState()
         val coroutineScope = rememberCoroutineScope()
+        val credentialStatus by viewModel.getCredStatusFlow().collectAsState()
 
         TabRow(
             selectedTabIndex = pagerState.currentPage,
@@ -43,7 +48,12 @@ fun TabScreen(
                 )
             }) {
             tabRowItems.forEachIndexed { index, tabRowItem ->
-                Tab(selected = pagerState.currentPage == index,
+                Tab(
+                    enabled = when(index) {
+                        0 -> true
+                        else -> credentialStatus.isUserLogged
+                    },
+                    selected = pagerState.currentPage == index,
                     onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
                     icon = {
                         Icon(

@@ -15,8 +15,6 @@ class LogInUser @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) {
     suspend operator fun invoke(
-        firstName: String,
-        familyName: String,
         userName: String,
         password: String
     ) {
@@ -26,7 +24,12 @@ class LogInUser @Inject constructor(
                 && credentialRepository.getPassword() == password
             ) {
                 credentialRepository.logIn()
-                cardRepository.changeDatabase(firstName, familyName, userName, password)
+                cardRepository.changeDatabase(
+                    firstName = credentialRepository.getFirstName(),
+                    familyName = credentialRepository.getFamilyName(),
+                    userName = userName,
+                    password = password
+                )
             }
         }
     }

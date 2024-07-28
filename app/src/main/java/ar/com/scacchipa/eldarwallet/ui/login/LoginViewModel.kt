@@ -93,7 +93,7 @@ class LoginViewModel @Inject constructor(
     fun onLogInButtonPushed() {
         viewModelScope.launch {
             with(_loginStateFlow.value) {
-                logInUser(firstName, familyName, userName, password)
+                logInUser(userName, password)
             }
         }
     }

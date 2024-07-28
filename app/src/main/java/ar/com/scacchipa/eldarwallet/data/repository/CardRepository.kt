@@ -32,17 +32,17 @@ class CardRepository @Inject constructor(
     ) {
         val passphrase: ByteArray =
             SQLiteDatabase.getBytes(password.toCharArray())
-        cardDatabase = CardDataBase.getDatabase(context, userName, passphrase)
+        this.cardDatabase = CardDataBase.getDatabase(context, userName, passphrase)
         this.userName = userName
         this.firstName = firstName
         this.familyName = familyName
     }
 
     suspend fun insert(cardEntity: CardEntity): Boolean {
-        return withContext(ioDispatcher) {
-            val firstName = this@CardRepository.firstName ?: return@withContext false
-            val familyName = this@CardRepository.familyName ?: return@withContext false
+        val firstName = this@CardRepository.firstName ?: return false
+        val familyName = this@CardRepository.familyName ?: return false
 
+        return withContext(ioDispatcher) {
             if (cardValidatorService.validateCardEntity(cardEntity, firstName, familyName)) {
                 cardDatabase?.cardDao()?.insert(cardEntity)
                 return@withContext true

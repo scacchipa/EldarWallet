@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.com.scacchipa.eldarwallet.R
+import ar.com.scacchipa.eldarwallet.ext.cardValidator
 import ar.com.scacchipa.eldarwallet.ui.StandardTextField
 
 @Composable
@@ -44,12 +45,8 @@ fun CardScreen(
                 value = data.cardNumber,
                 onValueChange = { cardNumber -> viewModel.onCardNumberChanged(cardNumber) },
                 labelText = "Card Number",
-                drawableIconId = when (data.cardNumber.firstOrNull()) {
-                    '3' -> R.drawable.amex_svgrepo_com
-                    '4' -> R.drawable.visa_4_logo_svgrepo_com
-                    '5' -> R.drawable.master_card_svgrepo_com
-                    else -> R.drawable.credit_card_left_svgrepo_com
-                }
+                drawableIconId = data.cardNumber.cardValidator()?.drawableRes
+                    ?: R.drawable.credit_card_left_svgrepo_com
             )
             StandardTextField(
                 value = data.cvv,
@@ -81,4 +78,3 @@ fun CardScreen(
         }
     }
 }
-

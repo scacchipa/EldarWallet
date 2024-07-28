@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ar.com.scacchipa.eldarwallet.ext.cardValidator
 
 @Composable
 fun CreditCard(cardNumber: String, cardHolder: String, expiryDate: String, cvv: String) {
@@ -34,11 +35,7 @@ fun CreditCard(cardNumber: String, cardHolder: String, expiryDate: String, cvv: 
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = when( cardNumber.firstOrNull()) {
-                    '3' -> "AMERICAN EXPRESS"
-                    '4' -> "VISA"
-                    '5' -> "MASTERCARD"
-                    else -> "CARDHOLDER"},
+                text = cardNumber.cardValidator()?.name ?: "PLACEHOLDER",
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,

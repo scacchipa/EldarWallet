@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabScreen(
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Column(
         modifier = modifier

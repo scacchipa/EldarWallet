@@ -101,7 +101,8 @@ class CardsViewModel @Inject constructor(
                 ownerName = _cardsScreenStateFlow.value.owner,
                 cardNumber = _cardsScreenStateFlow.value.cardNumber,
                 cvv = _cardsScreenStateFlow.value.cvv,
-                dueDate = _cardsScreenStateFlow.value.dueDate
+                dueDate = _cardsScreenStateFlow.value.dueDate,
+                balance = 0.0
             )
             val wasInserted = insertCard(cardEntity)
 

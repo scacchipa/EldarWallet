@@ -4,7 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,17 +34,31 @@ fun MainScreen(
 ) {
     val data by viewModel.mainStateFlow.collectAsState()
 
-    LazyColumn(
+    Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(data.cards) {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
-                    .fillParentMaxWidth(0.8f)
-                    .border(2.dp, SolidColor(Color.Blue), shape = RoundedCornerShape(10.dp))
-            ) {
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            fontSize = 32.sp,
+            modifier = Modifier
+                .padding(horizontal = 20.dp, vertical = 12.dp)
+                .border(4.dp, SolidColor(Color.Blue), shape = RoundedCornerShape(20.dp))
+                .padding(horizontal = 32.dp, vertical = 20.dp),
+            text = "Accounts"
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(data.cards) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp, vertical = 12.dp)
+                        .fillParentMaxWidth(0.8f)
+                        .border(2.dp, SolidColor(Color.Blue), shape = RoundedCornerShape(10.dp))
+                ) {
 
                     Row {
                         Image(
@@ -59,13 +75,16 @@ fun MainScreen(
                         Text(
                             fontSize = 24.sp,
                             modifier = Modifier.align(alignment = Alignment.CenterVertically),
-                            text = it.cardNumber)
+                            text = it.cardNumber
+                        )
                     }
                     Text(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 5.dp),
                         fontSize = 24.sp,
-                        text = "Balance: ${it.balance.format(2)}" )
+                        text = "Balance: ${it.balance.format(2)}"
+                    )
 
+                }
             }
         }
     }
